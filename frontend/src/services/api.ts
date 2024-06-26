@@ -63,7 +63,7 @@ export const getAllRespuestas = async () => {
 // Función para obtener detalles de una persona por ID
 export const getPersonDetails = async (idPersona: string) => {
   try {
-      const response = await axios.get(`${API_BASE_URL}/personas/${idPersona}`);
+      const response = await axios.get(`${API_BASE_URL}/test/${idPersona}`);
       return response.data;
   } catch (error) {
       console.error(`Error al obtener los detalles de la persona ${idPersona}:`, error);

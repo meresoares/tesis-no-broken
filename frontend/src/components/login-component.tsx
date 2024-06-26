@@ -10,7 +10,7 @@ interface LoginProps {
     isAdmin?: boolean; // Propiedad para indicar si es login de administrador
 }
 
-const Login: React.FC<LoginProps> = ({isAdmin = false}) => {
+const Login: React.FC<LoginProps> = ({ isAdmin = false }) => {
     // Obtiene la función de inicio de sesión del servicio de autenticación
     const { login } = useAuth() as { login: (email: string, password: string) => Promise<void> };
 
@@ -75,44 +75,44 @@ const Login: React.FC<LoginProps> = ({isAdmin = false}) => {
                 <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px', color: '#666' }}>Iniciar sesión</h5>
             </div>
             {error && <div className="alert alert-danger mb-3">{error}</div>}
-            <div className="form-outline mb-4">
-                <input 
-                type="email" 
-                id="email" 
-                className="form-control form-control-lg" 
-                placeholder='Correo electrónico' 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isAdmin} />
+            <div className="form-outline inputGroup-sizing-sm ">
+                <input
+                    type="email"
+                    id="email"
+                    className="form-control form-control-sm mb-3"
+                    placeholder='Correo electrónico'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isAdmin} />
             </div>
             <div className="input-group mb-3">
-                <input type={showPassword ? 'text' : 'password'} id="password" className="form-control form-control-lg" placeholder='Contraseña' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type={showPassword ? 'text' : 'password'} id="password" className="form-control form-control-sm" placeholder='Contraseña' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <label className="form-label" htmlFor="password"></label>
                 <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={togglePasswordVisibility}>
                     <i className="fas fa-eye" style={{ color: '#666' }}></i>
                 </span>
             </div>
             <div className="pt-1 mb-4 d-flex justify-content-center">
-                <button className="btn btn-primary btn-boton btn-lg btn-block" type="submit" disabled={isLoading}>
+                <button className="btn btn-primary btn-boton btn-sm btn-block" type="submit" disabled={isLoading}>
                     {isLoading ? 'Accediendo...' : 'Acceder'}
                 </button>
             </div>
 
-            <p className="mb-4 d-flex justify-content-center" style={{ color: '#666' }}>
-                { !isAdmin ? (
+            <small className="mb-2 d-flex justify-content-center" style={{ color: '#666' }}>
+                {!isAdmin ? (
                     <>
-                        ¿Eres administrador? <Link to="/login-admin" style={{ color: '#508bfc' }}>Ingresa aquí</Link>
+                        ¿Eres administrador? <Link to="/login-admin" style={{ color: '#508bfc', marginLeft: '10px' }}> Ingresa aquí</Link>
                     </>
                 ) : (
                     <>
-                        ¿No eres administrador? <Link to="/" style={{ color: '#508bfc' }}>Ingresa aquí</Link>
+                        ¿No eres administrador? <Link to="/" style={{ color: '#508bfc', marginLeft: '10px' }}> Ingresa aquí</Link>
                     </>
                 )}
-              </p>
+            </small>
 
-              {!isAdmin && (
-                <p className="mb-4 d-flex justify-content-center" style={{ color: '#666' }}>¿No tienes una cuenta? <Link to="/register-page" style={{ color: '#508bfc' }}>Regístrate aquí</Link></p>
-              )}             
+            {!isAdmin && (
+                <small className="mb-4 d-flex justify-content-center" style={{ color: '#666' }}>¿No tienes una cuenta? <Link to="/register-page" style={{ color: '#508bfc', marginLeft: '10px' }}>Regístrate aquí</Link></small>
+            )}
         </form>
     );
 

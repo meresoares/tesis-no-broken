@@ -30,12 +30,12 @@ const Questions: React.FC<QuestionProps> = ({ pregunta, onChangeRespuesta, respu
 
   return (
     <div className="question-container">
-      <h5 className="text-center">{pregunta.descripcion}</h5>
+      <h5 className="question-title">{pregunta.descripcion}</h5>
       <div className="options">
         {opciones.map((opcion) => (
           <button
             key={opcion.value}
-            className={`option-button ${respuestaActual === opcion.label ? 'selected' : ''}`}
+            className={`option-button btn btn-sm question-btn ${respuestaActual === opcion.label ? 'selected' : ''}`}
             onClick={() => handleChange(opcion.label)}
           >
             {opcion.label}

@@ -36,21 +36,30 @@ const ResultEvaluation: React.FC<ResultEvaluationProps> = ({ resultado }) => {
   };
 
   const consejos = generarConsejos(resultado);
+  const buttonClass = resultado.includes('Alta') ? 'high' : resultado.includes('Moderada') ? 'moderate' : '';
 
   return (
-    <div>
-      <h3>Según tus respuestas, parece que estás experimentando un nivel de {resultado}. </h3>
-      <p>Es importante recordar que este test proporciona una indicación general y no puede sustituir el diagnóstico realizado por un profesional de la salud mental. Si sientes que la ansiedad social está afectando significativamente tu vida, te recomendamos buscar ayuda de un terapeuta o psicólogo.</p>
-      <h5>Aquí tienes algunos consejos para manejar la {resultado}:</h5>
-      <ul>
-        {consejos.map((consejo, index) => (
-          <li key={index}>{consejo}</li>
-        ))}
-      </ul>
-      <p>Recuerda que el manejo de la ansiedad social puede ser un proceso gradual. Sé paciente contigo mismo y no dudes en buscar ayuda si sientes que la situación se vuelve abrumadora.</p>
-      <h3>Screenshot de los Consejos:</h3>
-      <p>Si lo deseas, puedes tomar un screenshot de estos consejos para tenerlos a mano como referencia en el futuro.</p>
-      <h5>¡Esperamos que estos consejos te sean útiles en tu camino hacia el bienestar emocional!</h5>
+    <div className="vlad_result_container">
+      <button className={`vlad_result_button ${buttonClass}`}>{resultado}</button>
+      <div className='question-container'>
+      <div className="mere_p">
+        <p>Es importante recordar que este test proporciona una indicación general y no puede sustituir el diagnóstico realizado por un profesional de la salud mental. Si sientes que la ansiedad social está afectando significativamente tu vida, te recomendamos buscar ayuda de un terapeuta o psicólogo.</p>
+      </div>
+        <div className='vlad_tooltip_container'>
+          <p className='vlad_tooltip'>¡Haz un Screenshot<br/> de los consejos! :D</p>
+        </div>
+        <div className='vlad_result_device'>
+          <h3>Aquí tienes <br/> algunos consejos:</h3>
+        </div>
+        <div className='vlad_result_advice'>
+          <ul>
+            {consejos.map((consejo, index) => (
+              <li key={index}>{consejo}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <p>*Recuerda que el manejo de la ansiedad social puede ser un proceso gradual. Sé paciente contigo mismo y no dudes en buscar ayuda si sientes que la situación se vuelve abrumadora.</p>
     </div>
   );
 };

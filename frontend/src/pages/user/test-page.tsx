@@ -50,7 +50,7 @@ const TestPage: React.FC = () => {
 
   }, [user, validated]);
 
-  useEffect (() => {
+  useEffect(() => {
     const fetchPreguntas = async () => {
       setLoading(true);
       try {
@@ -67,12 +67,11 @@ const TestPage: React.FC = () => {
   }, []);
 
   // Función para manejar el cambio de respuesta
-  const handleChangeRespuesta = useCallback ((preguntaId: number, respuesta: string) => {
+  const handleChangeRespuesta = useCallback((preguntaId: number, respuesta: string) => {
     setRespuestas(prevRespuestas => ({
       ...prevRespuestas,
       [preguntaId]: respuesta,
     }));
-    setShowAlert(false);
   }, []);
 
   const handleNextQuestion = () => {
@@ -81,7 +80,8 @@ const TestPage: React.FC = () => {
       setShowAlert(true);
       return;
     }
-    setShowAlert(false); // Ocultar alerta cuando la pregunta ha sido respondida
+    // Ocultar alerta cuando la pregunta ha sido respondida
+    setShowAlert(false);
     if (currentQuestionIndex < preguntas.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
@@ -131,12 +131,9 @@ const TestPage: React.FC = () => {
       user={user}
       handleLogout={logout}
       title="Inventario de Fobia Social "
-      subtitle="(Social Phobia Inventory, SPIN)"
+      subtitle="Por favor, indique en qué medida le han molestado los siguientes problemas durante las últimas semanas.
+        Responda con sinceridad y tómese el tiempo que necesite; no se preocupe, ya que no hay respuestas correctas o incorrectas. Su honestidad nos ayudará a proporcionarle la mejor evaluación posible."
     >
-      <p className="question-text">
-        Por favor, indique en qué medida le han molestado los siguientes problemas durante las últimas semanas.
-        Responda con sinceridad y tómese el tiempo que necesite; no se preocupe, ya que no hay respuestas correctas o incorrectas. Su honestidad nos ayudará a proporcionarle la mejor evaluación posible.
-      </p>
       {showAlert && (
         <div className="alert alert-warning" role="alert">
           Por favor, responde la pregunta antes de continuar.
@@ -165,7 +162,7 @@ const TestPage: React.FC = () => {
             )}
             <div className="navigation-buttons text-center">
               <button
-                className="btn btn-primary"
+                className="vlad_btn previous"
                 type="button"
                 onClick={handlePrevQuestion}
                 disabled={currentQuestionIndex === 0}
@@ -174,7 +171,7 @@ const TestPage: React.FC = () => {
               </button>
               {currentQuestionIndex < preguntas.length - 1 ? (
                 <button
-                  className="btn btn-primary"
+                  className="vlad_btn next shadow-sm p-2 mb-1"
                   type="button"
                   onClick={handleNextQuestion}
                 >
@@ -182,7 +179,7 @@ const TestPage: React.FC = () => {
                 </button>
               ) : (
                 <button
-                  className="btn btn-primary"
+                  className="vlad_btn next"
                   type="submit"
                   disabled={loading}
                 >

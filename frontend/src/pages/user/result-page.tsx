@@ -5,6 +5,7 @@ import ResultadoEvaluacion from '../../components/result-evaluation-component';
 import axios from 'axios';
 import '../../components/layout-component'
 import Layout from '../../components/layout-component';
+import '../../styles/estilo.css'
 
 const ResultPage: React.FC = () => {
   const { user, logout } = useAuth();
@@ -43,16 +44,22 @@ const ResultPage: React.FC = () => {
 
   // Si location.state es null, no renderices nada o muestra un mensaje de carga
   if (!location.state || !location.state.resultado) {
-    return null; // O puedes retornar un mensaje de carga, por ejemplo, <p>Loading...</p>
+    return null; 
   }  
 
   
 
   const { resultado } = location.state;
   return (
-    <Layout user={user} handleLogout={logout} title='¡Gracias por completar la evaluación!'
-      subtitle=''>
-      <div>
+    <Layout 
+      user={user} handleLogout={logout} 
+      title='¡Gracias por completar la evaluación!'
+      subtitle='Según tus respuestas parece que estas experimentando un nivel de:'
+      titleClassName="vlad_result_title"
+      subtitleClassName="vlad_result_subtitle"
+      >
+        
+      <div className='mb-4 center'>
         <ResultadoEvaluacion resultado={resultado} />
       </div>
     </Layout>

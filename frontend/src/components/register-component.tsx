@@ -70,7 +70,7 @@ const Register: React.FC = () => {
         } finally {
             // Habilita el botón de registro nuevamente
             setSubmitting(false);
-        } 
+        }
     };
 
     // Función para manejar el inicio de sesión con Google
@@ -104,37 +104,37 @@ const Register: React.FC = () => {
                 <h1 className="h3 mb-3 font-weight-normal" style={{ marginTop: '1.5rem' }}>¡Bienvenido a AnxieSense!</h1>
                 <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: '1px', color: '#666' }}>Crear una cuenta</h5>
             </div>
-            {error && <div className="alert alert-danger mb-3">{error}</div>}
-            <div className="form-outline mb-4">
-                <input type="text" id="username" className="form-control form-control-lg" placeholder='Nombre de usuario' value={username} onChange={(e) => setUsername(e.target.value)} />
+            {error && <div className="alert alert-danger mb-2">{error}</div>}
+            <div className="form-outline inputGroup-sizing-sm mb-2">
+                <input type="text" id="username" className="form-control inputGroup-sizing-sm" placeholder='Nombre de usuario' value={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
-            <div className="form-outline mb-4">
-                <input type="email" id="email" className="form-control form-control-lg" placeholder='Correo electrónico' value={email} onChange={(e) => setEmail(e.target.value)} />
+            <div className="form-outline inputGroup-sizing-sm mb-2">
+                <input type="email" id="email" className="form-control inputGroup-sizing-sm" placeholder='Correo electrónico' value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
-            <div className="input-group mb-3">
-                <input type={showPassword ? 'text' : 'password'} id="repeatPassword" className="form-control form-control-lg" placeholder='Ingrese una contraseña' value={password} onChange={(e) => setPassword(e.target.value)} />
+            <div className="input-group mb-2">
+                <input type={showPassword ? 'text' : 'password'} id="repeatPassword" className="form-control inputGroup-sizing-sm" placeholder='Ingrese una contraseña' value={password} onChange={(e) => setPassword(e.target.value)} />
                 <label className="form-label" htmlFor="repeatPassword"></label>
                 <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={togglePasswordVisibility}>
                     <i className="fas fa-eye" style={{ color: '#666' }}></i>
                 </span>
             </div>
-            <div className="input-group mb-3">
-                <input type={showPassword ? 'text' : 'password'} id="repeatPassword" className="form-control form-control-lg" placeholder='Repetir contraseña' value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} />
+            <div className="input-group mb-2">
+                <input type={showPassword ? 'text' : 'password'} id="repeatPassword" className="form-control inputGroup-sizing-sm" placeholder='Repetir contraseña' value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} />
                 <label className="form-label" htmlFor="repeatPassword"></label>
                 <span className="input-group-text" style={{ cursor: 'pointer' }} onClick={toggleRepeatPasswordVisibility}>
                     <i className="fas fa-eye" style={{ color: '#666' }}></i>
                 </span>
             </div>
             <div className="pt-1 mb-3 text-center">
-                <button className="btn btn-primary btn-lg btn-block" type="submit" disabled={submitting}>
+                <button className="btn btn-primary btn-sm btn-block" type="submit" disabled={submitting}>
                     {isLoading ? 'Registrando...' : 'Crear cuenta'}
                 </button>
             </div>
             {successMessage && !error && <div className="alert alert-success mb-3">{successMessage}</div>}
 
             <div className="text-center">
-                <p>O Regístrate con:</p>
-                <button type="button" className="btn btn-link btn-floating mx-4" onClick={handleGoogleLogin}>
+                <small>O Regístrate con:</small>
+                <button type="button" className="btn btn-link btn-floating" onClick={handleGoogleLogin}>
                     <i className="fab fa-google fa-2x"></i>
                 </button>
             </div>

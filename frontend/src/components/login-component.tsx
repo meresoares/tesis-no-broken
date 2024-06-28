@@ -37,6 +37,8 @@ const Login: React.FC<LoginProps> = ({ isAdmin = false }) => {
         try {
             // Reinicia el mensaje de error
             setError('');
+            // Establecer isLoading a true mientras se realiza la autenticación
+            setIsLoading(true); 
 
             await login(email, password);
             navigate('/user-page');

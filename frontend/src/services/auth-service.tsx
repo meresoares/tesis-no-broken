@@ -4,6 +4,7 @@
 import { createContext, ReactNode, useContext, useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, User, onAuthStateChanged } from "firebase/auth";
 
+
 // Definir el tipo de contexto para AuthService
 interface AuthService {
     user: User | null;

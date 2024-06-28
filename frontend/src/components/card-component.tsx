@@ -1,15 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { format, isValid, parseISO } from 'date-fns';
 
 interface CardProps {
     idPersona: string;
-    resultado: string;
+    evaluacion: string;
     fechaRespuesta: Date | string | null;
     fechaNacimiento: Date | string | null;
 }
 
-const CardComponent: React.FC<CardProps> = ({ idPersona, fechaRespuesta, fechaNacimiento, resultado }) => {
+const CardComponent: React.FC<CardProps> = ({ idPersona, fechaRespuesta, fechaNacimiento, evaluacion }) => {
+    const navigate = useNavigate();
+
     const parseFecha = (fecha: Date | string | null): Date | null => {
         if (!fecha) return null;
         if (typeof fecha === 'string') {
@@ -17,6 +19,12 @@ const CardComponent: React.FC<CardProps> = ({ idPersona, fechaRespuesta, fechaNa
             return isValid(parsedDate) ? parsedDate : null;
         }
         return isValid(fecha) ? fecha : null;
+    };
+
+    const handleNavigation = () => {
+        // Aquí puedes pasar cualquier dato adicional necesario
+        console.log('Navigating to details with idPersona:', idPersona);
+        navigate(`/detalle/${idPersona}`, { state: { evaluacion, fechaRespuesta, fechaNacimiento } });
     };
 
     const formattedFechaRespuesta = parseFecha(fechaRespuesta)
@@ -28,16 +36,16 @@ const CardComponent: React.FC<CardProps> = ({ idPersona, fechaRespuesta, fechaNa
         : 'Fecha inválida';
 
     return (
-        <Link to={`/persona/${idPersona}`} style={{ textDecoration: 'none' }}>
-            <div className="card">
-                <div className="card-body">
-                    <h5 className="card-title">ID Persona: {idPersona}</h5>
-                    <p>Resultado: {resultado}</p> 
-                    <p>Fecha de Respuesta: {formattedFechaRespuesta}</p>
-                    <p>Fecha de Nacimiento: {formattedFechaNacimiento}</p>
-                </div>
+        <div className="card-body mere_p mb-2">
+            <p>{idPersona}</p>
+            <p>Evaluación <br /> {evaluacion}</p>
+            <p>Fecha de Respuesta <br /> {formattedFechaRespuesta}</p>
+            <p>Fecha de Nacimiento <br /> {formattedFechaNacimiento}</p>
+            <div className='vlad_details_button' onClick={handleNavigation}>
+                <p>Ver más detalles</p>
             </div>
-        </Link>
+        </div>
+
     );
 };
 

@@ -16,14 +16,22 @@ const Home: React.FC = () => {
     const navigate = useNavigate();
     // Obtiene el objeto de historial de navegación
 
-    const [rol] = useState<string>('Usuario');
-
+    //const [rol] = useState<string>('Usuario');
+    // Estado local para el rol del usuario
+    const [rol, setRol] = useState<string>('Usuario'); 
+   
     useEffect(() => {
         // Verificar si el usuario no está autenticado y redirigir a la página de inicio de sesión
         if (!user) {
             navigate('/', { replace: true });
+        } else {
+            if (rol === 'Admnistrador') {
+                setRol('Administrador');
+            } else {
+                setRol('Usuario');
+            }
         }
-    }, [user, navigate]);
+    }, [user, navigate, rol]);
 
     const handleLogout = async () => {
         try {

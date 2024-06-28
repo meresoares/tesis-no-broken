@@ -2,7 +2,6 @@
 // login-administrador-page.tsx
 
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import loginImage from '../../images/img-login.webp';
 import '../../styles/estilo.css';
 import Login from '../../components/login-component';

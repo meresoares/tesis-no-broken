@@ -7,10 +7,10 @@ import UsuarioPage from './pages/user/user-page';
 import TestPage from './pages/user/test-page';
 import ResultadoPage from './pages/user/result-page';
 import AdminHomePage from './pages/administrator/home-admin-page';
-import { AuthProvider, useAuth } from './services/auth-service'; // Importa el proveedor de contexto de autenticación
+import { AuthProvider } from './services/auth-service'; // Importa el proveedor de contexto de autenticación
 import '@fortawesome/fontawesome-free/css/all.css';
 import LoginAdmin from './pages/administrator/login-administrador-page';
-import Detalle from './pages/administrator/detalle-page';
+import DetalleAdmin from './pages/administrator/detalle-admin-page';
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
             <Route path="/result-page" element={<ResultadoPage/>} />
             <Route path="/login-admin" element={<LoginAdmin/>} />
             <Route path="/admin-page" element={<AdminHomePage/>} />
-            <Route path="/test/:id" element={<Detalle/>} />
+            <Route path="/detalle/:idPersona" element={<DetalleAdmin/>} />
           </Routes>
 
         </div>

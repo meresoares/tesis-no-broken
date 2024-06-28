@@ -29,6 +29,27 @@
   color: #574008 !important;
 }
 
+.vlad_p {
+  color: #574008;
+  /*text-align: center; */
+  font-size: 18px;
+}
+
+.vlad_card {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  flex: 1 1 calc(33.333% - 40px); /* Tres columnas con un espacio entre ellas */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.vlad_respuestas {
+  color: #5A5858;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .vlad_result_title {
   font-weight: 700;
   color: #4f833c;
@@ -82,8 +103,19 @@
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 18px;
-  cursor: pointer;
   margin: 10px 0;
+}
+
+.vlad_details_button {
+  background-color: #4f833c;
+  color: #ffffff;
+  border: none;
+  text-align: center;
+  border-radius: 5px;
+  padding: 0px 0px;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 10px 15px;
 }
 
 .vlad_result_button.moderate {
@@ -143,17 +175,16 @@
   overflow-y: auto; /* Permitir el desplazamiento solo en el contenido */
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 20px auto; /* Centrar el card */
-}
-
 .card-body {
-  display: flex;
   flex-direction: column;
-  justify-content: center;
+  background: white;
+  padding: 20px !important;
+  border-radius: 18px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
+  margin-bottom: 20px;
+  max-width: 90%; /* Limita el ancho máximo */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .navbar-custom {

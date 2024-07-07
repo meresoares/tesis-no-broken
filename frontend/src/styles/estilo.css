@@ -487,6 +487,10 @@ body {
   align-items: center;
   border-bottom: 1px solid #5a585871;
   margin: 10px 0;
+  transition: all 0.4s linear;
+}
+.mere_detalles_filas:hover {
+  background-color: #5c595310;
 }
 .mere_detalles_cp_item {
   width: 33%;
@@ -502,4 +506,33 @@ body {
 }
 .table_item_3 p {
   font-weight: 700;
+}
+
+@media only screen and (max-width: 600px) {
+  .mere_resultado_detalle {
+    top: 25%;
+    padding: 10px;
+    z-index: 999;
+    right: -4%;
+  }
+  .mere_resultado_detalle_p {
+    font-weight: 600;
+    line-height: 13px;
+  }
+  .mere_detalles_header_item h4 {
+    font-size: 20px;
+  }
+
+  .mere_card_detalles_container {
+    flex-direction: column;
+  }
+  .mere_card_detalles {
+    width: 100%;
+    margin: 5px 0;
+  }
+  .carrera {
+    font-size: 20px;
+    text-align: center;
+    font-weight: 500;
+  }
 }

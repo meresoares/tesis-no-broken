@@ -72,7 +72,9 @@ const DetalleAdmin: React.FC = () => {
             titleClassName="vlad_result_title"
         >
             <section className='mere_detalles_section'>
-                <small className='carrera'>{detalles.carrera}</small>
+                <small className='carrera'>
+                    {detalles.carrera}
+                </small>
                 <div className="mere_card_detalles_container">
                     <div className="mere_card_detalles">
                         <p className="detalles_title">Fecha de Nacimiento</p>

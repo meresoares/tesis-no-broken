@@ -11,6 +11,7 @@ import { AuthProvider } from './services/auth-service'; // Importa el proveedor 
 import '@fortawesome/fontawesome-free/css/all.css';
 import LoginAdmin from './pages/administrator/login-administrador-page';
 import DetalleAdmin from './pages/administrator/detalle-admin-page';
+import ProtectedRoute from './services/protected-route';
 
 
 function App() {

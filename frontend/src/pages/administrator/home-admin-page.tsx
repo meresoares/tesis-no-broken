@@ -59,14 +59,17 @@ const HomeAdmin: React.FC = () => {
                     <h2>Tests Realizados</h2>
                 </div>
                 {respuestas.length === 0 ? (
-                    <p>No hay respuestas disponibles.</p>
+                    <>
+                        <p>No hay respuestas disponibles.</p>
+                        <img src='/images/empty.png' alt="no hay datos" />
+                    </>
                 ) : (
                     <div className="row">
                         {respuestas.map((respuesta, index) => (
                             <div key={index} className="col-md-4 mb-3">
                                 <CardComponent
                                     idPersona={respuesta.id_persona}
-                                    evaluacion={respuesta.evaluacion} 
+                                    evaluacion={respuesta.evaluacion}
                                     fechaRespuesta={respuesta.fecha_respuesta}
                                     fechaNacimiento={respuesta.fecha_nacimiento}
                                 />

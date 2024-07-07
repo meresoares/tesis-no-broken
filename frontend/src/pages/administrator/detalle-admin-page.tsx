@@ -23,7 +23,7 @@ interface PersonaDetalle {
 
 const DetalleAdmin: React.FC = () => {
     const { idPersona } = useParams<{ idPersona: string }>();
-    const [detalles, setDetalles] = useState<PersonaDetalle | null>(null);    
+    const [detalles, setDetalles] = useState<PersonaDetalle | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const { user, logout } = useAuth();
     const location = useLocation();
@@ -34,7 +34,7 @@ const DetalleAdmin: React.FC = () => {
         const fetchDetalles = async () => {
             try {
                 if (idPersona) {
-                    const response = await axios.get(`${API_BASE_URL}/detalle/${idPersona}`);         
+                    const response = await axios.get(`${API_BASE_URL}/detalle/${idPersona}`);
                     const personaData = response.data[0]; // Acceder al primer (y único) elemento del array           
                     console.log('Datos de la persona:', personaData);
                     setDetalles(response.data);
@@ -60,60 +60,96 @@ const DetalleAdmin: React.FC = () => {
         return <div>No se encontraron datos de la persona.</div>;
     }
 
-     // Verificar los datos que llegan desde el estado de la navegación
-     console.log('location state:', location.state);
+    // Verificar los datos que llegan desde el estado de la navegación
+    console.log('location state:', location.state);
 
     return (
-        <Layout 
-            user={user} 
-            handleLogout={logout} 
-            title='Tests Realizados' 
+        <Layout
+            user={user}
+            handleLogout={logout}
+            title='Tests Realizados'
             subtitle=''
-            titleClassName="vlad_result_title">
-        <div className="container">
-        <div className="vlad_card">
-                    <p className='mere_p'>Fecha de Nacimiento</p>
-                    <p className='vlad_p'>{new Date(detalles.fecha_nacimiento).toLocaleDateString()}</p>
+            titleClassName="vlad_result_title"
+        >
+            <section className='mere_detalles_section'>
+                <small className='carrera'>{detalles.carrera}</small>
+                <div className="mere_card_detalles_container">
+                    <div className="mere_card_detalles">
+                        <p className="detalles_title">Fecha de Nacimiento</p>
+                        <p className="detalles_answer">{new Date(detalles.fecha_nacimiento).toLocaleDateString()}</p>
+
+                    </div>
+                    <div className="mere_card_detalles">
+                        <p className='detalles_title'>Fecha de Evaluación <br /> </p>
+                        <p className="detalles_answer">{new Date(detalles.fecha_respuesta).toLocaleDateString()}</p>
+
+                    </div>
+                    <div className="mere_card_detalles">
+                        <p className='detalles_title'>Sexo <br /> </p>
+                        <p className='detalles_answer'> {detalles.sexo} </p>
+                    </div>
+                    <div className="mere_card_detalles">
+                        <p className='detalles_title'>Facultad <br /> </p>
+                        <p className='detalles_answer'> {detalles.universidad} </p>
+                    </div>
+                    {/* <div className="vlad_card">
+                        <p className='mere_p'>Carrera <br /> </p>
+                        <p className='vlad_p'> {detalles.carrera} </p>
+                    </div> */}
+
                 </div>
-                <div className="card">
-                    <p className='mere_p'>Fecha de Evaluación</p>
-                    <p className='vlad_p'>{new Date(detalles.fecha_respuesta).toLocaleDateString()}</p>
-                </div>
-                <div className="card">
-                    <p className='mere_p'>Sexo</p>
-                    <p className='vlad_p'>{detalles.sexo}</p>
-                </div>
-                <div className="card">
-                    <p className='mere_p'>Facultad</p>
-                    <p className='vlad_p'>{detalles.universidad}</p>
-                </div>
-                <div className="card">
-                    <p className='mere_p'>Carrera</p>
-                    <p className='vlad_p'>{detalles.carrera}</p>
-                </div>
-           
-            <div className="detalles">
-                <table>
-                    <thead>
-                        <tr className='vlad_p'>
-                            <th>Número</th>
-                            <th>Preguntas</th>
-                            <th>Respuestas</th>
-                        </tr>
-                    </thead>
-                    <tbody className='mere_p'>
-                        {detalles.preguntas_respuestas.map((pr, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{pr.texto_pregunta}</td>
-                                <td className='vlad_respuestas'>{pr.texto_respuesta || 'Nada'}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </Layout>
+                <article className="mere_sofa">
+                    <div className="mere_detalles_respuestas">
+                        <div>
+                            <div className='mere_detalles_header'>
+                                <div className='mere_detalles_header_item table_item_1'>
+                                    <h4>
+                                        N°
+                                    </h4>
+                                </div>
+                                <div className='mere_detalles_header_item table_item_2'>
+                                    <h4>
+                                        Preguntas
+                                    </h4>
+                                </div>
+                                <div className='mere_detalles_header_item table_item_3'>
+                                    <h4>
+                                        Respuestas
+                                    </h4>
+                                </div>
+                            </div>
+                            <div className='mere_detalles_cuerpo'>
+                                {detalles.preguntas_respuestas.map((pr, index) => (
+                                    <div key={index} className='mere_detalles_filas'>
+                                        <div className='mere_detalles_cp_item table_item_1'>
+                                            <p>
+                                                {index + 1}
+                                            </p>
+                                        </div>
+                                        <div className='mere_detalles_cp_item table_item_2'>
+                                            <p>
+                                                {pr.texto_pregunta}
+                                            </p>
+                                        </div>
+                                        <div className='mere_detalles_cp_item table_item_3'>
+                                            <p>
+                                                {pr.texto_respuesta || 'Nada'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mere_resultado_detalle">
+                        <p className="mere_resultado_detalle_p">
+                            {detalles.evaluacion}
+                        </p>
+                    </div>
+
+                </article>
+            </section>
+        </Layout>
     );
 };
 

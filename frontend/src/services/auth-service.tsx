@@ -2,7 +2,16 @@
 // auth-service.tsx
 
 import { createContext, ReactNode, useContext, useState, useEffect } from "react";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, User, onAuthStateChanged } from "firebase/auth";
+import { getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    GoogleAuthProvider, 
+    signInWithPopup, 
+    signOut, 
+    User, 
+    onAuthStateChanged, 
+    AuthErrorCodes, 
+} from "firebase/auth";
 
 
 // Definir el tipo de contexto para AuthService
@@ -55,8 +64,8 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Error al registrar usuario:", error.message);
-                throw error;
-                // Relanza el error para que pueda ser manejado por el componente que llama a esta función
+                const errorMessage = getFriendlyErrorMessage(error.message);
+                throw new Error(errorMessage);
             } else {
                 console.error("Error al registrar usuario:", error);
                 throw new Error("Ocurrió un error al registrar el usuario.");
@@ -74,7 +83,8 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Error al iniciar sesión:", error.message);
-                throw error;
+                const errorMessage = getFriendlyErrorMessage(error.message);
+                throw new Error(errorMessage);
             } else {
                 console.error("Error al iniciar sesión:", error);
                 throw new Error("Ocurrió un error al iniciar sesión.");
@@ -93,7 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
             console.log("Usuario logueado con Google:", response.user);
         } catch (error) {
             console.error("Error al iniciar sesión con Google:", error);
-            throw error;
+            throw new Error("Ocurrió un error al iniciar sesión con Google.");
         }
     };
 
@@ -106,9 +116,34 @@ export function AuthProvider({ children }: { children: ReactNode }): JSX.Element
             console.log("Usuario desconectado");
         } catch (error) {
             console.error("Error al desconectar usuario:", error);
-            throw error;
+            throw new Error("Ocurrió un error al desconectar al usuario.");
         }
     };
+
+    // Función para obtener mensajes de error amigables
+    const getFriendlyErrorMessage = (errorMessage: string): string => {
+        if (errorMessage.includes("auth/email-already-in-use")) {
+          return "El correo electrónico ya está en uso.";
+        } else if (errorMessage.includes("auth/invalid-email")) {
+          return "El correo electrónico no es válido.";
+        } else if (errorMessage.includes("auth/weak-password")) {
+          return "La contraseña es demasiado débil.";
+        } else if (errorMessage.includes("auth/user-disabled")) {
+          return "La cuenta de usuario ha sido deshabilitada.";
+        } else if (errorMessage.includes("auth/user-not-found")) {
+          return "No se encontró una cuenta con ese correo electrónico.";
+        } else if (errorMessage.includes("auth/wrong-password")) {
+          return "La contraseña es incorrecta.";
+        }  else if (errorMessage.includes("auth/invalid-credential")) {
+            return "El correo electrónico o la contraseña son incorrectos.";
+        } else if (errorMessage.includes("auth/network-request-failed")) {
+            return "Error de red. Por favor, revisa tu conexión a Internet.";
+        } else if (errorMessage.includes("auth/requires-recent-login")) {
+            return "Por favor, inicia sesión de nuevo para completar esta acción.";
+        } else {
+          return "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.";
+        }
+      };
 
     // Devuelve el componente con el proveedor y su valor
     return (

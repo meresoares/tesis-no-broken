@@ -70,3 +70,13 @@ export const getPersonDetails = async (idPersona: string) => {
       throw error;
   }
 };
+
+export const checkUserStatus = async (idPersona: string) => {
+  try {
+      const response = await axios.get(`${API_BASE_URL}/user-status/${idPersona}`);
+      return response.data;
+  } catch (error) {
+      console.error('Error al verificar el estado del usuario:', error);
+      throw error;
+  }
+};

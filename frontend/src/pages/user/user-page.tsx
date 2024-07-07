@@ -24,26 +24,6 @@ const UserPage: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [validated, setValidated] = useState(false);
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-        try {
-            const userResponse = await axios.get(`${API_BASE_URL}/persons/${user?.uid}`);
-            if (userResponse.status === 200) {
-                // El usuario ya completó el formulario, redirige a test-page
-                navigate('/test-page');
-            }
-        } catch (error) {
-            console.error('Error al obtener los detalles del usuario:', error);
-        } finally {
-          setValidated(true);
-        }
-    };
-
-    if (!validated && user) {
-        fetchUserDetails();
-    }
-}, [user, navigate, validated]);
-
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -111,23 +91,30 @@ const UserPage: React.FC = () => {
   return (
     <Layout user={user} handleLogout={logout} title='Bienvenido a AnxieSense'
       subtitle='AnxieSense es un sistema experto diseñado para ayudarte a comprender mejor tus niveles de ansiedad social. Antes de comenzar, por favor completa el siguiente formulario con tus datos personales. Te garantizamos que toda la información proporcionada será tratada con absoluta confidencialidad, al igual que los resultados de tu evaluación.'>
-      <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: 'auto' }}>
-        <h4 className="text-md-center mb-3">Formulario de Información Personal</h4>
-
-        {error && <div className="alert alert-danger mb-3">{error}</div>}
-
-        <SexoSelect sexo={sexo} onChange={setSexo} />
-
-        <FechaNacimientoPicker startDate={startDate} onChange={setStartDate} datePickerRef={datePickerRef} />
-
-        <UniversidadCarreraSelect universidad={universidad} carrera={carrera} onChangeUniversidad={setUniversidad} onChangeCarrera={setCarrera} />
-
-        <div className="text-center">
-          <button className="btn btn-primary btn-lg" type="submit" disabled={loading}>
-            {loading ? 'Cargando...' : 'Empezar test'}
-          </button>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-8 col-lg-6">
+            <form onSubmit={handleSubmit}>
+              <h4 className="text-center mb-3">Formulario de Información Personal</h4>
+              {error && <div className="alert alert-danger mb-3">{error}</div>}
+              <div className="mb-3">
+                <SexoSelect sexo={sexo} onChange={setSexo} />
+              </div>
+              <div className="mb-3">
+                <FechaNacimientoPicker startDate={startDate} onChange={setStartDate} datePickerRef={datePickerRef} />
+              </div>
+              <div className="mb-3">
+                <UniversidadCarreraSelect universidad={universidad} carrera={carrera} onChangeUniversidad={setUniversidad} onChangeCarrera={setCarrera} />
+              </div>
+              <div className="text-center">
+                <button className="btn btn-primary btn-lg" type="submit" disabled={loading}>
+                  {loading ? 'Cargando...' : 'Empezar test'}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </form>
+      </div>
     </Layout>
 
   );

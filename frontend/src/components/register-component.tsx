@@ -17,7 +17,7 @@ const Register: React.FC = () => {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false); // Estado para controlar el envío del formulario
     const [successMessage, setSuccessMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -76,13 +76,15 @@ const Register: React.FC = () => {
     // Función para manejar el inicio de sesión con Google
     const handleGoogleLogin = async () => {
         setIsLoading(true);
-        setError('');
+        setError(null);
 
         try {
             await auth.loginWithGoogle();
             setSuccessMessage('¡Registrado exitosamente con Google!');
-            // Redirige al usuario al inicio de sesión después de un registro exitoso con Google                
-            navigate('/');
+            // Agrega un retraso antes de redirigir
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
         } catch (error) {
             // Asegurarse de que el error sea tratado como un Error
             if (error instanceof Error) {
@@ -138,7 +140,8 @@ const Register: React.FC = () => {
                     <i className="fab fa-google fa-2x"></i>
                 </button>
             </div>
-
+            {successMessage && <p>{successMessage}</p>}
+            {error && <p>{error}</p>}
             <p className="text-center" style={{ color: '#666' }}>¿Ya tienes una cuenta? <Link to="/" style={{ color: '#508bfc' }}>Ingresa aquí</Link></p>
         </form>
     );

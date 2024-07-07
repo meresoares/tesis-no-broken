@@ -3,7 +3,6 @@ import React, { ReactNode } from 'react';
 import Navbar from './navbar-component';
 import { useNavigate } from 'react-router-dom';
 import '../styles/estilo.css'
-import classNames from 'classnames';
 
 interface LayoutProps {
     user: any;

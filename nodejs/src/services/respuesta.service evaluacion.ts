@@ -7,7 +7,6 @@ type Respuestas = Array<{ pregunta_id: number; respuesta: RespuestaValue }>;
 type ValoresRespuestas = Record<RespuestaValue, number>;
 
 class SistemaExperto {
-  // Asigna valores numéricos a cada respuesta
   private valores: ValoresRespuestas = {
     'Nada': 0,
     'Muy poco': 1,
@@ -19,17 +18,13 @@ class SistemaExperto {
   // Evalúa las respuestas basándose en la puntuación total
   evaluarRespuestas(respuestas: Respuestas): string {
     let puntuacion = 0;
-
-    // Depuración: Imprimir las respuestas y sus valores
-    console.log("Respuestas y valores: ");
-
     for (const { respuesta } of respuestas) {
       console.log(`Respuesta: ${respuesta} (${this.valores[respuesta]})`);
       puntuacion += this.valores[respuesta];
     }
 
-     // Depuración: Imprimir la puntuación total
-     console.log(`Puntuación total: ${puntuacion}`);
+    // Depuración: Imprimir la puntuación total
+    console.log(`Puntuación total: ${puntuacion}`);
 
     // Clasifica el nivel de ansiedad basado en la puntuación
     if (puntuacion <= 40) {
@@ -50,9 +45,15 @@ interface CreateRespuestasData {
 class RespuestaService {
   private sistemaExperto: SistemaExperto = new SistemaExperto();
 
-  async createRespuesta(data: CreateRespuestasData): Promise<{resultado: string; respuestas: Respuesta[]}> {
+  async createRespuesta(data: CreateRespuestasData): Promise<{ resultado: string; respuestas: Respuesta[] }> {
     try {
       const { persona_id, respuestas } = data;
+      
+      // Verificar si la persona ya ha respondido
+      const existingResponse = await Respuesta.findOne({ where: { persona_id } });
+      if (existingResponse) {
+        throw new Error("Esta persona ya ha respondido el formulario.");
+      }
       // Calcula la evaluación
       const evaluacion = this.sistemaExperto.evaluarRespuestas(respuestas);
       console.log(`Evaluación calculada: ${evaluacion}`); // Depuración
@@ -87,13 +88,28 @@ class RespuestaService {
 
   async getRespuestaByPersonaId(personaId: string): Promise<string | null> {
     try {
-      const respuesta = await Respuesta.findOne({ where: { persona_id: personaId }});
+      const respuesta = await Respuesta.findOne({ where: { persona_id: personaId } });
       return respuesta && respuesta.evaluacion !== undefined ? respuesta.evaluacion : null;
     } catch (error: any) {
       console.error('Error al obtener el resultado:', error);
       throw new Error(`Database Error: ${error.message}`);
     }
   }
+
+  async checkUserStatus(personaId: string): Promise<{ status: string; evaluacion?: string }> {
+    try {
+      const evaluacion = await this.getRespuestaByPersonaId(personaId);
+      if (evaluacion) {
+        return { status: 'responded', evaluacion };
+      } else {
+        return { status: 'not-responded' };
+      }
+    } catch (error: any) {
+      console.error('Error al verificar el estado del usuario:', error);
+      throw new Error(`Database Error: ${error.message}`);
+    }
+  }
+
 }
 
 export default new RespuestaService();

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getAllRespuestas } from '../../services/api';
 import Layout from '../../components/layout-component';
 import axios from 'axios';
 import { useAuth } from '../../services/auth-service';
@@ -60,8 +59,8 @@ const HomeAdmin: React.FC = () => {
                 </div>
                 {respuestas.length === 0 ? (
                     <>
-                        <p>No hay respuestas disponibles.</p>
-                        <img src='/images/empty.png' alt="no hay datos" />
+                        <p style={{ textAlign: 'center' }}>No hay respuestas disponibles.</p>
+                        <img src='/images/empty.png' alt="no hay datos" style={{ display: 'block', margin: '0 auto' }}/>
                     </>
                 ) : (
                     <div className="row">

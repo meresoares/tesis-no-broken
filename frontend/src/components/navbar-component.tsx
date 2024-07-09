@@ -14,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, handleLogout }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark navbar-custom mere_nav" >
       <div className="container">
-        <a className="navbar-brand mere_navbar_color mx-auto" href="/home">AnxieSense - Sistema Experto</a>
+        <a className="navbar-brand mere_navbar_color mx-auto" href="/">AnxieSense - Sistema Experto</a>
         <div className="collapse navbar-collapse" id="navbarCollapse">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>         
           <div className="d-flex align-items-center">

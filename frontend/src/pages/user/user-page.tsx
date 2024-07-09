@@ -1,7 +1,7 @@
 // export default UsuarioPage;
 // user-page.tsx
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../services/auth-service';
 import Layout from '../../components/layout-component'
@@ -22,7 +22,6 @@ const UserPage: React.FC = () => {
   const [carrera, setCarrera] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [validated, setValidated] = useState(false);
 
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {

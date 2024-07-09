@@ -12,6 +12,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import LoginAdmin from './pages/administrator/login-administrador-page';
 import DetalleAdmin from './pages/administrator/detalle-admin-page';
 import ProtectedRoute from './services/protected-route';
+import AnsiedadPage from './pages/user/ansiedad-page';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/login-admin" element={<LoginAdmin/>} />
             <Route path="/admin-page" element={<AdminHomePage/>} />
             <Route path="/detalle/:idPersona" element={<DetalleAdmin/>} />
+            <Route path="/ansiedad-social" element={<AnsiedadPage/>} />
           </Routes>
 
         </div>

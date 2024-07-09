@@ -67,7 +67,7 @@ const DetalleAdmin: React.FC = () => {
         <Layout
             user={user}
             handleLogout={logout}
-            title='Tests Realizados'
+            title='Detalles del Test Seleccionado'
             subtitle=''
             titleClassName="vlad_result_title"
         >

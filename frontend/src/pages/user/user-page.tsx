@@ -1,13 +1,12 @@
-// export default UsuarioPage;
 // user-page.tsx
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../services/auth-service';
-import Layout from '../../components/layout-component'
+import Layout from '../../components/layout-component';
 import { useNavigate } from 'react-router-dom';
 import { SexoSelect, FechaNacimientoPicker, UniversidadCarreraSelect } from '../../components/user-component';
-import '../../styles/estilo.css'
+import '../../styles/estilo.css';
 import DatePicker from 'react-datepicker';
 import { differenceInYears, format } from 'date-fns';
 
@@ -23,6 +22,22 @@ const UserPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
+  useEffect(() => {
+    const checkIfCompleted = async () => {
+      if (!user) return;
+
+      try {
+        const response = await axios.get(`${API_BASE_URL}/persons/${user.uid}`);
+        if (response.status === 200 && response.data) {
+          navigate('/test-page');
+        }
+      } catch (err) {
+        console.error('Error al verificar si la página de usuario está completa:', err);
+      }
+    };
+
+    checkIfCompleted();
+  }, [user, navigate]);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -30,7 +45,6 @@ const UserPage: React.FC = () => {
       setError('No hay un usuario autenticado.');
       return;
     }
-
 
     // Validar que todos los campos estén llenos
     if (!sexo || !universidad || !carrera || !startDate) {
@@ -60,7 +74,6 @@ const UserPage: React.FC = () => {
     // Formatear la fecha de nacimiento
     const formattedDate = format(startDate!, 'yyyy-MM-dd');
 
-
     try {
       // Enviar los datos del formulario
       await axios.post(`${API_BASE_URL}/persons`, {
@@ -84,12 +97,15 @@ const UserPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
-    <Layout user={user} handleLogout={logout} title='Bienvenido a AnxieSense'
-      subtitle='AnxieSense es un sistema experto diseñado para ayudarte a comprender mejor tus niveles de ansiedad social. Antes de comenzar, por favor completa el siguiente formulario con tus datos personales. Te garantizamos que toda la información proporcionada será tratada con absoluta confidencialidad, al igual que los resultados de tu evaluación.'>
+    <Layout
+      user={user}
+      handleLogout={logout}
+      title="Bienvenido a AnxieSense"
+      subtitle="AnxieSense es un sistema experto diseñado para ayudarte a comprender mejor tus niveles de ansiedad social. Antes de comenzar, por favor completa el siguiente formulario con tus datos personales. Te garantizamos que toda la información proporcionada será tratada con absoluta confidencialidad, al igual que los resultados de tu evaluación."
+    >
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6">
@@ -115,7 +131,6 @@ const UserPage: React.FC = () => {
         </div>
       </div>
     </Layout>
-
   );
 };
 

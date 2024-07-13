@@ -1,5 +1,3 @@
-// src/pages/TestPage.tsx
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../services/auth-service';
 import axios from 'axios';
@@ -7,7 +5,7 @@ import Questions from '../../components/questions-component';
 import Layout from '../../components/layout-component';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/estilo.css';
-import '../../styles/test.css'
+import '../../styles/test.css';
 
 interface Pregunta {
   id: number;
@@ -20,35 +18,52 @@ const TestPage: React.FC = () => {
 
   const API_BASE_URL = 'http://localhost:3001/api';
   const [preguntas, setPreguntas] = useState<Pregunta[]>([]);
-  // Estado para almacenar las respuestas del cuestionario
   const [respuestas, setRespuestas] = useState<{ [key: number]: string }>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
-
+  const [redirectPath, setRedirectPath] = useState<string | null>(null);
 
   useEffect(() => {
+    const checkAuth = async () => {
+      if (!user) {
+        console.log('Usuario no autenticando, redirigiendo...');
+        setRedirectPath('/');
+        setLoading(false);
+        return;
+      }
 
-    const checkTestCompletion = async () => {
       try {
-        const resultResponse = await axios.get(`${API_BASE_URL}/respuestas/${user?.uid}`);
-        if (resultResponse.status === 200) {
-          // El usuario ya completó el test, redirige a result-page
-          // navigate('/result-page');
+        const userResponse = await axios.get(`${API_BASE_URL}/persons/${user.uid}`);
+        if (userResponse.status === 200 && userResponse.data) {
+          try {
+            const testResponse = await axios.get(`${API_BASE_URL}/respuestas/${user.uid}`);
+            if (testResponse.status === 200 && testResponse.data) {
+              setRedirectPath('/result-page'); // El usuario ha completado el test
+            } else {
+              setRedirectPath(null); // El usuario puede quedarse en la página
+            }
+          } catch {
+            setRedirectPath(null); // El usuario puede quedarse en la página
+          }
+        } else {
+          setRedirectPath('/user-page');
         }
-      } catch (error) {
-        console.error('Error al verificar si el usuario ha completado el test:', error);
+      } catch {
+        setRedirectPath('/user-page');
       } finally {
-        setValidated(true);
+        setLoading(false);
       }
     };
 
-    if (!validated && user) {
-      checkTestCompletion();
-    }
+    checkAuth();
+  }, [user]);
 
-  }, [user, validated]);
+  useEffect(() => {
+    if (redirectPath) {
+      navigate(redirectPath);
+    }
+  }, [redirectPath, navigate]);
 
   useEffect(() => {
     const fetchPreguntas = async () => {
@@ -66,9 +81,8 @@ const TestPage: React.FC = () => {
     fetchPreguntas();
   }, []);
 
-  // Función para manejar el cambio de respuesta
   const handleChangeRespuesta = useCallback((preguntaId: number, respuesta: string) => {
-    setRespuestas(prevRespuestas => ({
+    setRespuestas((prevRespuestas) => ({
       ...prevRespuestas,
       [preguntaId]: respuesta,
     }));
@@ -80,7 +94,6 @@ const TestPage: React.FC = () => {
       setShowAlert(true);
       return;
     }
-    // Ocultar alerta cuando la pregunta ha sido respondida
     setShowAlert(false);
     if (currentQuestionIndex < preguntas.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -93,12 +106,10 @@ const TestPage: React.FC = () => {
     }
   };
 
-  // Función para enviar las respuestas al backend
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Verifica si todas las preguntas tienen una respuesta antes de enviar
-    const allQuestionsAnswered = preguntas.every(pregunta => respuestas[pregunta.id] !== undefined);
+    const allQuestionsAnswered = preguntas.every((pregunta) => respuestas[pregunta.id] !== undefined);
 
     if (!allQuestionsAnswered) {
       setShowAlert(true);
@@ -110,7 +121,7 @@ const TestPage: React.FC = () => {
       const personaId = user?.uid;
       const data = {
         persona_id: personaId,
-        respuestas: Object.keys(respuestas).map(preguntaId => ({
+        respuestas: Object.keys(respuestas).map((preguntaId) => ({
           pregunta_id: parseInt(preguntaId),
           respuesta: respuestas[parseInt(preguntaId)],
         })),

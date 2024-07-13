@@ -1,69 +1,72 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../services/auth-service';
 import ResultadoEvaluacion from '../../components/result-evaluation-component';
 import axios from 'axios';
-import '../../components/layout-component'
+import '../../components/layout-component';
 import Layout from '../../components/layout-component';
-import '../../styles/estilo.css'
+import '../../styles/estilo.css';
 
 const ResultPage: React.FC = () => {
   const { user, logout } = useAuth();
-  const location = useLocation();
   const navigate = useNavigate();
   const API_BASE_URL = 'http://localhost:3001/api';
-  const [validated, setValidated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [resultadoState, setResultadoState] = useState<string | null>(null);
 
-
- useEffect(() => {
+  useEffect(() => {
     const fetchUserDetails = async () => {
-      try {
-          const userResponse = await axios.get(`${API_BASE_URL}/persons/${user?.uid}`);
-          if (userResponse.status !== 200) {
-              // Si el usuario no tiene UID, redirige a user-page
-              navigate('/user-page');
-          } else {
-              const resultResponse = await axios.get(`${API_BASE_URL}/respuestas/${user?.uid}`);
-              if (resultResponse.status !== 200) {
-                  // Si el usuario no ha completado el test, redirige a test-page
-                  navigate('/test-page');
-              }
-          }
-      } catch (error) {
-          console.error('Error al obtener los detalles del usuario:', error);
-      } finally {
-        setValidated(true);
+      if (!user) {
+        console.log('Usuario no autenticado, redirigiendo a la página de inicio de sesión');
+        navigate('/'); // Redirige a la página de inicio de sesión si el usuario no está autenticado
+        return;
       }
-  };
 
-  if (!validated && user) {
-      fetchUserDetails();
+      try {
+        const resultResponse = await axios.get(`${API_BASE_URL}/respuestas/${user.uid}`);
+        if (resultResponse.status === 200 && resultResponse.data.resultado) {
+          setResultadoState(resultResponse.data.resultado);
+        } else {
+          navigate('/test-page'); // Redirige a la página del test si no se encuentra el resultado
+        }
+      } catch (error) {
+        console.error('Error al obtener los detalles del usuario:', error);
+        navigate('/test-page'); // Redirige a la página del test en caso de error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserDetails();
+  }, [user, navigate]);
+
+  if (loading) {
+    return <div>Cargando...</div>;
   }
 
-  }, [location, navigate, user, validated]);
+  if (!resultadoState) {
+    return <div>No se encontró el resultado de la evaluación.</div>;
+  }
 
-  // Si location.state es null, no renderices nada o muestra un mensaje de carga
-  if (!location.state || !location.state.resultado) {
-    return null; 
-  }  
+  console.log('Renderizando página de resultados con:', resultadoState);
 
-  
-
-  const { resultado } = location.state;
   return (
-    <Layout 
-      user={user} handleLogout={logout} 
-      title='¡Gracias por completar la evaluación!'
-      subtitle='Según tus respuestas parece que estas experimentando un nivel de:'
+    <Layout
+      user={user}
+      handleLogout={logout}
+      title="¡Gracias por completar la evaluación!"
+      subtitle="Según tus respuestas parece que estás experimentando un nivel de:"
       titleClassName="vlad_result_title"
       subtitleClassName="vlad_result_subtitle"
-      >
-        
-      <div className='mb-4 center'>
-        <ResultadoEvaluacion resultado={resultado} />
+    >
+      <div className="mb-4 center">
+        {resultadoState ? (
+          <ResultadoEvaluacion resultado={resultadoState} />
+        ) : (
+          <div>No se pudo cargar el resultado.</div>
+        )}
       </div>
     </Layout>
-
   );
 };
 

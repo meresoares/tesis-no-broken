@@ -5,6 +5,7 @@ import PersonController from '../controllers/person.controller';
 
 const router = Router();
 
+
 // Rutas para operaciones CRUD
 router.get('/persons', PersonController.getAllPersons);
 router.get('/persons/:id', PersonController.getPersonById);

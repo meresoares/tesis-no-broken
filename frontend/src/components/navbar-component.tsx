@@ -3,6 +3,7 @@
 
 import React from 'react';
 import '../styles/estilo.css';
+import { useNavigate } from 'react-router-dom';
 
 
 interface NavbarProps {
@@ -11,9 +12,13 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ user, handleLogout }) => {
+  const navigate = useNavigate();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark navbar-custom mere_nav" >
       <div className="container">
+      <button className="btn btn-link text-white" onClick={() => navigate(-1)}>
+              <i className="fas fa-arrow-left icon-color"></i> 
+            </button>
         <a className="navbar-brand mere_navbar_color mx-auto" href="/">AnxieSense - Sistema Experto</a>
         <div className="collapse navbar-collapse" id="navbarCollapse">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>         
@@ -22,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, handleLogout }) => {
             {user ? (
               <div className="d-flex align-items-center">
                 <button className="btn" onClick={handleLogout}>
-                  <i className="fas fa-sign-out-alt"></i>
+                  <i className="fas fa-sign-out-alt icon-color"></i>
                 </button>
               </div>
             ) : (

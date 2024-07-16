@@ -17,14 +17,13 @@ const AuthProvider: React.FC = () => {
     const navigate = useNavigate(); 
 
     // Función para manejar el cierre de sesión del usuario
-    const handleLogout = () => {
-        if (logout) {
-            logout().then(() => {
-                navigate('/');
-                // Redirige al usuario a la pagina de login luego de cerrar sesión
-            });
-        } else {
-            console.error("La función de cierre de sesión no está disponible");
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/');
+            // Redirigir al usuario a la página de inicio después de cerrar sesión
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
         }
     };
 

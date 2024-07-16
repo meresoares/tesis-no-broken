@@ -46,6 +46,11 @@
   margin: 0 0 20px 0;
   font-weight: 700;
 }
+
+.icon-color {
+  color: #574008
+}
+
 .mere_card_detalles {
   background-color: #fff;
   border-radius: 10px;

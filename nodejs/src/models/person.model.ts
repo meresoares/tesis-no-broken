@@ -12,7 +12,7 @@ export class Person extends Model {
     public universidad!: string; 
     public carrera!: string; 
     public datos_personales?: string; 
-    public tipo_persona_role!: string; 
+    public tipo_persona_role!: 'Usuario' | 'Administrador'
     public sexo!: string; 
 }
 

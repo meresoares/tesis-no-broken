@@ -9,8 +9,7 @@ import { getAuth,
     signInWithPopup, 
     signOut, 
     User, 
-    onAuthStateChanged, 
-    AuthErrorCodes, 
+    onAuthStateChanged,
 } from "firebase/auth";
 
 

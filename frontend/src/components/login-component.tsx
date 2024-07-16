@@ -1,10 +1,6 @@
-// export default Login;
-// login-component.tsx
-
 import React, { useState } from 'react';
 import { useAuth } from '../services/auth-service';
 import { Link, useNavigate } from 'react-router-dom';
-
 
 interface LoginProps {
     isAdmin?: boolean; // Propiedad para indicar si es login de administrador
@@ -40,9 +36,6 @@ const Login: React.FC<LoginProps> = ({ isAdmin = false }) => {
             // Establecer isLoading a true mientras se realiza la autenticación
             setIsLoading(true); 
 
-            await login(email, password);
-            navigate('/user-page');
-
             // Validación del correo electrónico y contraseña
             if (!isEmailValid(email)) {
                 throw new Error('Por favor, introduce una dirección de correo electrónico válida.');
@@ -50,9 +43,16 @@ const Login: React.FC<LoginProps> = ({ isAdmin = false }) => {
             if (!isPasswordValid(password)) {
                 throw new Error('Por favor introduce una contraseña válida.');
             }
+
             // Intenta iniciar sesión con el correo electrónico y la contraseña proporcionados
             await login(email, password);
-            // Redirige al usuario a la página de inicio después de iniciar sesión correctamente
+
+            // Redirige al usuario a la página correspondiente después de iniciar sesión correctamente
+            if (isAdmin) {
+                navigate('/admin-page');
+            } else {
+                navigate('/user-page');
+            }
         } catch (error) {
             if (error instanceof Error) {
                 setError(error.message);

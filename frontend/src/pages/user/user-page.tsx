@@ -39,6 +39,7 @@ const UserPage: React.FC = () => {
     checkIfCompleted();
   }, [user, navigate]);
 
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     if (!user) {
@@ -85,7 +86,9 @@ const UserPage: React.FC = () => {
         tipo_persona_role: 'Usuario',
       });
 
-      navigate('/test-page');
+      //navigate('/test-page');
+
+      
 
     } catch (error) {
       if (axios.isAxiosError(error)) {

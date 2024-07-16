@@ -8,8 +8,6 @@ import Login from '../../components/login-component';
 
 const LoginAdmin: React.FC = () => {
 
-  
-
   return (
     <section className="login-container">
       <div className="container">

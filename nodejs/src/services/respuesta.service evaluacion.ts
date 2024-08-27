@@ -27,9 +27,9 @@ class SistemaExperto {
     console.log(`Puntuación total: ${puntuacion}`);
 
     // Clasifica el nivel de ansiedad basado en la puntuación
-    if (puntuacion <= 40) {
+    if (puntuacion <= 20) {
       return 'Ansiedad Social Baja';
-    } else if (puntuacion <= 80) {
+    } else if (puntuacion > 20 && puntuacion <= 40) {
       return 'Ansiedad Social Moderada';
     } else {
       return 'Ansiedad Social Alta';

@@ -2,8 +2,8 @@
 import express from "express";
 import sequelize from "./config/config"; // Importar directamente desde el archivo de configuración
 import personRoutes from './routes/person.routes';
-import preguntaRoutes from './routes/pregunta.routes'
-import respuestaRoutes from './routes/respuesta.routes'
+import preguntaRoutes from './routes/pregunta.routes';
+import respuestaRoutes from './routes/respuesta.routes';
 import dotenv from "dotenv";
 import cors from 'cors';
 import bodyParser from 'body-parser';

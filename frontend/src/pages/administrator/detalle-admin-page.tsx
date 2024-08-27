@@ -18,6 +18,7 @@ interface PersonaDetalle {
     sexo: string;
     evaluacion: string;
     fecha_respuesta: string;
+    puntuacion: number; // Puntuación total
     preguntas_respuestas: PreguntaRespuesta[];
 }
 
@@ -150,6 +151,11 @@ const DetalleAdmin: React.FC = () => {
                     </div>
 
                 </article>
+                <div className="mere_resultado_detalle">
+                    <p className="mere_resultado_detalle_p">
+                            Puntuación Total: {detalles.puntuacion}
+                        </p>
+                    </div>
             </section>
         </Layout>
     );

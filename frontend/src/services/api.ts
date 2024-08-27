@@ -25,7 +25,7 @@ export const createPerson = async (personData: any) => {
   }
 };
 
-// Función para actualizar un producto existente
+// Función para actualizar
 export const updatePerson = async (id: number, personData: any) => {
   try {
     const response = await axios.put(
